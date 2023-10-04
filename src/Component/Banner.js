@@ -13,7 +13,7 @@ export const Banner = () => {
 
     useEffect(() => {
         let ticker = setInterval(() => {
-            ticker();
+            tick();
         },delta )
 
         return () => { clearInterval(ticker)}
@@ -22,7 +22,7 @@ export const Banner = () => {
     const tick = () => {
         let i = loopNum % toRotate.length;
         let fullText = toRotate[i];
-        let updatedtext = isDeleting ? fullText.substring(0, text.lenght - 1) : fullText.substring(0, text.lenght + 1);
+        let updatedtext = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
 
         setText(updatedtext);
 
@@ -30,7 +30,14 @@ export const Banner = () => {
             setdelta(prevDelta => prevDelta /2)
         }
 
-        if
+        if (!isDeleting && updatedtext == fullText){
+            setIsDeleted(true);
+            setdelta(period);
+        } else if(isDeleting && updatedtext === ''){
+            setIsDeleted(false);
+            setLoopNum(loopNum + 1);
+            setdelta(500);
+        }
     }
     
     return(
@@ -39,7 +46,7 @@ export const Banner = () => {
                 <Row className="align-items-center">
                     <Col xs={12} md={6} xl={7}>
                         <span className="tagline">Welcome to my Portfolio</span>
-                        <h1>{`Hi! I'm Nagesh Chari`}<br></br><span className="wrap">UI/UX Designer</span></h1>
+                        <h1>{`Hi! I'm Nagesh Chari`}<br></br><span className="wrap">{text}</span></h1>
                         <p>Master's in Computer Application graduate with a strong passion for graphic designing and UI/UX. Proficient in using design tools and technologies to create visually appealing and user-centric interfaces. Eager to contribute innovative design solutions to enhance user experiences.</p>
                         <button onClick={() => console.log('connect')}>Lets connect<ArrowRightCircle size={25} /></button>
                     </Col>
